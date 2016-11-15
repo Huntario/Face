@@ -13,9 +13,9 @@ Facial recognition site
 9. Check if picture 2 is a match
 -----------Logged in--------------------
 10. 
---Show celebrities you look like?
---Show other people you look like?
---Use the  SkyBiometery to do something else cool w/their face.
+  --Show celebrities you look like?
+  --Show other people you look like?
+  --Use the  SkyBiometery to do something else cool w/their face.
 
 
 
