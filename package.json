@@ -1,0 +1,22 @@
+{
+  "name": "face",
+  "version": "1.0.0",
+  "description": "Facial recognition site",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Huntario/Face.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Huntario/Face/issues"
+  },
+  "homepage": "https://github.com/Huntario/Face#readme",
+  "dependencies": {
+    "sequelize": "^3.27.0"
+  }
+}

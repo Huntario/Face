@@ -1,0 +1,42 @@
+<!-- Compiled and minified CSS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+<!-- Compiled and minified JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+  <div class="row">
+  <script>
+    $('#faceform').submit(function(event){
+    event.preventDefault();
+    var newUser = {
+      username: $('#username').val().trim(),
+      url: $('#url').val().trim()
+    };
+    var currentURL = window.location.origin;
+    $.post(currentURL + "/users", newUser,
+      function(data){
+        console.log(data);
+
+      }
+    })
+
+  </script>
+    <form class="inputForm" id="faceform" action="/create" method="POST">
+      <div class="row">
+        <div class="input-field col s6">
+          <input placeholder="" id="username" type="text" class="validate">
+          <label for="username">Username</label>
+        </div>
+        <div class="input-field col s6">
+          <input id="url" type="text" class="validate">
+          <label for="url">Image URL</label>
+        </div>
+        <div class="row">
+       <button class="btn waves-effect waves-light" method="post" type="submit" name="action" id="submit">Submit
+       </button>
+     </div>
+      </div>
+    </form>
+  </div>
