@@ -3,20 +3,18 @@ Facial recognition site
 
 
 1. Create an account on our site w/ email address.
-2. Take picture through webcam
-3. Send picture to SkyBiometery (documentation: https://skybiometry.com/documentation/)
-4. Get recognition info (see below)
-5. Store regonition info.
-6. Next login, ask for email address.
-7. Check webcam again and take picture.
-8. Send new picture to SkyBiometry.
-9. Check if picture 2 is a match
+2. Take picture & learn/train face
+3. Next login, use face to authenticate.
 -----------Logged in--------------------
-10. 
-  --Show celebrities you look like?
-  --Show other people you look like?
-  --Use the  SkyBiometery to do something else cool w/their face.
-
+4. Show past data on face
+    -photos[0].tags.glasses
+    -photos[0].tags.age_est
+    -photos[0].tags.anger
+    -photos[0].tags.disgust
+    -photos[0].tags.fear
+    -photos[0].tags.happiness
+    -photos[0].tags.sadness
+    -photos[0].tags.surprise
 
 ```
 Here is what SkyBiometery returns: 
