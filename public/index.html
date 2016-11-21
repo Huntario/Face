@@ -5,24 +5,23 @@
 <script
   src="https://code.jquery.com/jquery-3.1.1.min.js"
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-  crossorigin="anonymous"></script>
-  <div class="row">
-  <script>
-    $('#faceform').submit(function(event){
-    event.preventDefault();
-    var newUser = {
-      username: $('#username').val().trim(),
-      url: $('#url').val().trim()
-    };
-    var currentURL = window.location.origin;
-    $.post(currentURL + "/users", newUser,
-      function(data){
-        console.log(data);
-
-      }
-    })
-
-  </script>
+  crossorigin="anonymous">
+</script>
+<div class="row">
+<script>
+      $('#faceform').submit(function(event) {
+      event.preventDefault();
+      let user = {
+        username: $('#username').val().trim(),
+        url: $('#url').val().trim(),
+      };
+      let currentURL = window.location.origin;
+      $.post(currentURL + '/users', newUser,
+        function(data) {
+          console.log(data);
+          });
+     });
+</script>
     <form class="inputForm" id="faceform" action="/create" method="POST">
       <div class="row">
         <div class="input-field col s6">

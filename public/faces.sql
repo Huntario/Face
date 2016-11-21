@@ -1,5 +1,4 @@
 CREATE DATABASE facesDB;
-
 USE facesDB;
 
 CREATE TABLE users(

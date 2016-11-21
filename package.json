@@ -4,7 +4,8 @@
   "description": "Facial recognition site",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,13 @@
   },
   "homepage": "https://github.com/Huntario/Face#readme",
   "dependencies": {
+    "body-parser": "^1.15.2",
     "sequelize": "^3.27.0"
-  }
+  },
+  "devDependencies": {
+    "eslint": "^3.10.2",
+    "eslint-config-google": "^0.7.0",
+    "eslint-plugin-react": "^6.7.1"
+  },
+  "keywords": []
 }

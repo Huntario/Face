@@ -1,1 +1,0 @@
-function storeUser(email, uid, )
