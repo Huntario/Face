@@ -1,6 +1,5 @@
 # Face
-Facial recognition site
-
+Face recognition site
 
 1. Create an account on our site w/ email address.
 2. Take picture & learn/train face

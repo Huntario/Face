@@ -6,14 +6,18 @@ var testVars = require('./testVars.js');
 var skybiometry = require('skybiometry');
 var app = express();
 const client = new skybiometry.Client(appKeys.key1, appKeys.key2);
-app.use(express.static('public'));
-app.listen(3000, function() {
-    'use strict';
-    console.log('Example app listening on port 3000!');
-});
+
+startServer();
 learnFace();
 recognizeFace();
 
+function startServer(){
+  app.use(express.static('public'));
+  app.listen(3000, function() {
+  'use strict';
+  console.log('Example app listening on port 3000!');
+  });
+ }
 function learnFace() {
     //User.sync(); // creates a characters table
     client.faces.detect({ urls: testVars.angelina, attributes: 'all' })
@@ -35,5 +39,5 @@ function recognizeFace() {
         } else {
             console.log('This is not a match.');
         }
-});}
+  });}
 
