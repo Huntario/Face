@@ -14,6 +14,8 @@ Face recognition site
     -photos[0].tags.happiness
     -photos[0].tags.sadness
     -photos[0].tags.surprise
+      {confidence:19,
+      boolean:true}
 
 ```
 Here is what SkyBiometery returns:
