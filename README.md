@@ -16,7 +16,7 @@ Face recognition site
     -photos[0].tags.surprise
 
 ```
-Here is what SkyBiometery returns: 
+Here is what SkyBiometery returns:
 
 {
   "status": "success",

@@ -1,4 +1,4 @@
-var express = require('express');  
+var express = require('express');
 var appKeys = require('./keys.js');
 var User = require('./models')['users'];
 var routes = require('./controllers/routes.js')['routes'];
