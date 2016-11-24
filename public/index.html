@@ -5,8 +5,20 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   crossorigin="anonymous">
 </script>
+    <script src="webcam.js"></script>
+    <div id="my_camera" style="width:320px; height:240px;"></div>
+    <div id="my_result"></div>
+    <script language="JavaScript">
+        Webcam.attach( '#my_camera' );
+        function take_snapshot() {
+            Webcam.snap( function(data_uri) {
+                document.getElementById('my_result').innerHTML = '<img src="'+data_uri+'"/>';
+            } );
+        }
+    </script>
+<a href="javascript:void(take_snapshot())">Take Snapshot</a>
 <div class="row">
-<script>
+<!-- <script>
       $('#faceform').submit(function(event) {
       event.preventDefault();
       let user = {
@@ -19,16 +31,12 @@
           console.log(data);
           });
      });
-</script>
-    <form class="inputForm" id="faceform" action="/create" method="POST">
+</script> -->
+    <form class="inputForm" id="faceform" action="/post" method="POST">
       <div class="row">
         <div class="input-field col s6">
-          <input placeholder="" id="username" type="text" class="validate">
+          <input name="username" id="username" type="text" class="validate">
           <label for="username">Username</label>
-        </div>
-        <div class="input-field col s6">
-          <input id="url" type="text" class="validate">
-          <label for="url">Image URL</label>
         </div>
         <div class="row">
        <button class="btn waves-effect waves-light" method="post" type="submit" name="action" id="submit">Submit
