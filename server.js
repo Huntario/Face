@@ -1,25 +1,25 @@
 var express = require('express');
 var appKeys = require('./keys.js');
-var User = require('./models')['users'];
-var routes = require('./controllers/routes.js')['routes'];
+var users = require('./routes/users');
+var main = require('./routes/main');
 var testVars = require('./testVars.js');
 var skybiometry = require('skybiometry');
-var app = express();
+var User = require('./models')['users'];
 const client = new skybiometry.Client(appKeys.key1, appKeys.key2);
 var bodyParser = require('body-parser');
-
-
+var app = express();
+app.use('/users', users);
+app.use('/', main);
+app.use(express.static('public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 function startServer(){
   app.listen(3000, function() {
-  app.use(express.static('public'));
-  app.use(bodyParser.json());
-  app.use(bodyParser.urlencoded({ extended: true }));
   User.sync(); // creates a users table
-  console.log('Example app listening on port 3000!');
+  console.log('Listening on port 3000!');
   });
  }
 function learnFace(name) {
-    console.log(name);
     client.faces.detect({ urls: testVars.garryB, attributes: 'all' })
     .then(function(result){
         var nameString = String(name);
@@ -36,16 +36,15 @@ function recognizeFace(name) {
     client.faces.recognize(fullNameSpace, { urls: testVars.garryB, attributes: 'all' })
     .then(function(result) {
         var newData = JSON.parse(result);
-        console.log(newData.photos[0].tags[0]);
-        var user = newData.photos[0].tags[0].uids[0].uid;
-        var confidence = newData.photos[0].tags[0].uids[0].confidence;
+        var user = newData.photos[0].tags[0];
+        console.log(user);
+        var confidence = user.uids[0].confidence;
         if (confidence > 40) {
             console.log('This looks like a match. Were: ' + confidence + ' confident.');
         } else {
             console.log('This is not a match. Were: ' + confidence + ' confident.');
         }
   });}
-
 startServer();
 learnFace('gary');
 recognizeFace('gary');
