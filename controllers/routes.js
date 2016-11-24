@@ -15,3 +15,21 @@ router.post('/post', urlencodedParser,function(req,res){
    console.log(req.body);
 });
 module.exports = router;
+
+
+
+
+// git branch <branchName>
+// git checkout <branchName>
+// //if you start working without branching, and then realize it
+// git stash
+// git branch <branchName>
+// git checkout <branchName>
+// git git stash apply
+// // now your work since the last commit will be in the new branch
+// //do your work
+// git add .
+// git commit -m"what did you work on?"
+// git push origin <branchname>
+
+
