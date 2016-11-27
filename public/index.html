@@ -1,47 +1,144 @@
-<!-- Compiled and minified CSS -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
-<!-- Compiled and minified JavaScript -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-  crossorigin="anonymous">
-</script>
+
+<html>
+  <head>
+    <title>Group-Project2</title>
+    <!-- Latest compiled and minified CSS & JS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
     <script src="webcam.js"></script>
+  
+    <script language="JavaScript">
+          var newUser;
+
+          $( document ).ready(function() {
+
+              Webcam.attach( '#my_camera' );
+
+              function take_snapshot() {
+                  Webcam.snap( function(data_uri) {
+
+                      console.log("take_snapshot newUser"+JSON.stringify(newUser));
+
+                      document.getElementById('my_result').innerHTML = 
+                        '<img id="webcamimage" name="webcamimage" src="'+data_uri+'"/>';
+
+                      var img = document.getElementById('webcamimage');
+                      newUser = {
+                          username: $('#username').val().trim(),
+                          sourcefile: $('#sourcefile').val().trim(),
+                          snapShotBinaryImage:img.src
+                      };
+                      readAndProcessImage();
+
+                  } );
+              } // end of function take_snapshot
+
+              $("#submit3").on("click", function(){
+
+                      readAndProcessImage();
+
+                return false;
+
+              }); // end of - $("#submit").on("click", function()
+
+
+              $("#submit2").on("click", function(){
+
+                      take_snapshot();
+
+                return false;
+
+              }); // end of - $("#submit").on("click", function()
+
+
+          }); // end of $( document ).ready
+
+          function readAndProcessImage(){
+
+                      console.log("readAndProcessImage newUser"+JSON.stringify(newUser));
+
+                      // This line is the magic. It's very similar to the standard ajax function we used.
+                      // Essentially we give it a URL, we give it the object we want to send, then we have a "callback".
+                      // The callback is the response of the server. In our case, we set up code in api-routes that "returns" true or false
+                      // depending on if a tables is available or not.
+
+                      // Here we get the location of the root page.
+                      // We use this instead of explicitly saying the URL is localhost:3001 because the url will change when we deploy.
+                      var currentURL = window.location.origin;
+
+                      $.post(currentURL + "/users/webcamimage", newUser,
+                        function(data){
+
+                            // If a table is available... tell user they are booked.
+                            if(data == true){
+                                alert("Yay! You are officially booked!")
+                            }
+
+                            // If a table is available... tell user they on the waiting list.
+                            if(data == false){
+                                alert("Sorry you are on the wait list")
+                            }
+
+                        });
+
+                          //   "json"
+                          // Clear the form when submitting
+                         // $('#username').val("");
+                         // $('#sourcefile').val("");
+               
+          } // end of - function readAndProcessImage
+
+    </script>
+
+
+  </head>
+  <body class="container">
     <div id="my_camera" style="width:320px; height:240px;"></div>
     <div id="my_result"></div>
-    <script language="JavaScript">
-        Webcam.attach( '#my_camera' );
-        function take_snapshot() {
-            Webcam.snap( function(data_uri) {
-                document.getElementById('my_result').innerHTML = '<img src="'+data_uri+'"/>';
-            } );
-        }
-    </script>
-<a href="javascript:void(take_snapshot())">Take Snapshot</a>
-<div class="row">
-<!-- <script>
-      $('#faceform').submit(function(event) {
-      event.preventDefault();
-      let user = {
-        username: $('#username').val().trim(),
-        url: $('#url').val().trim(),
-      };
-      let currentURL = window.location.origin;
-      $.post(currentURL + '/users', newUser,
-        function(data) {
-          console.log(data);
-          });
-     });
-</script> -->
-    <form class="inputForm" id="faceform" action="users/add" method="POST" enctype="multi-part/form-data">
-      <div class="row">
-        <div class="input-field col s6">
-          <input name="username" id="username" type="text" class="validate">
-          <label for="username">Username</label>
+    <!--
+    <a href="javascript:void(take_snapshot())">Take Snapshot</a>
+    -->
+    <button class="btn waves-effect waves-light" method="post" type="submit" name="action" id="submit2">Take Snapshot
+    </button>
+    <div class="row">
+      <!-- <script>
+        $('#faceform').submit(function(event) {
+        event.preventDefault();
+        let user = {
+          username: $('#username').val().trim(),
+          url: $('#url').val().trim(),
+        };
+        let currentURL = window.location.origin;
+        $.post(currentURL + '/users', newUser,
+          function(data) {
+            console.log(data);
+            });
+       });
+      </script> -->
+      
+      <form role="form" id="faceform" action="users/add" method="POST" enctype="multipart/form-data">
+      
+      <!--
+      <form role="form" id="faceform">
+      -->
+        <div class="row form-group"">
+          <div class="input-field col s6">
+            <input name="username" id="username" type="text" class="validate">
+            <label for="username">Username</label>
+          </div>
+        </div>  
+          <div class="row form-group">
+            <input type="file" name="sourcefile" id="sourcefile">
+          </div>
+          <div class="row form-group">
+            <button class="btn waves-effect waves-light" method="post" type="submit" name="action" id="submit">Submit
+            </button>
+          </div>
         </div>
-        <div class="row">
-       <button class="btn waves-effect waves-light" method="post" type="submit" name="action" id="submit">Submit
-       </button>
-     </div>
-      </div>
-    </form>
-  </div>
+      </form>
+    
+  </body>
+</html>  
