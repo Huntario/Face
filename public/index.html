@@ -18,7 +18,7 @@
                 document.getElementById('my_result').innerHTML = '<img src="'+data_uri+'"/>';
                 var dataUriText = data_uri + "";
                 var base64Image = dataUriText.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
-                console.log(base64Image);
+                SorryForGlobal = base64Image;
             } );
         }
     </script>
@@ -27,16 +27,23 @@
 <script>
 
 $(document).ready(function(){
-    $("#submit").click(function(){
-        var username = $('#username', value);
-        alert(username);
-        $.post('users/create', { field1: "hello", field2 : "hello2"},
-          function(returnedData){
-          console.log(returnedData);
-          })
-          .fail(function(){
-            console.log("error");
-              });
+    $("#submit").click(function(e){
+        e.preventDefault();
+        var username = $('#username').val();
+        console.log(username);
+          var data = {};
+          data.username = username;
+          data.pic = SorryForGlobal;
+          $.ajax({
+            type: 'POST',
+            data: JSON.stringify(data),
+                contentType: 'application/json',
+                        url: 'http://localhost:3000/users/create',
+                        success: function(data) {
+                            console.log('success');
+                            console.log(JSON.stringify(data));
+                        }
+                    });
       });
   });
 </script>

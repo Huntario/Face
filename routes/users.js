@@ -6,10 +6,25 @@ var app = express();
 var multer  = require('multer')
 var upload = multer({ dest: 'uploads/' });
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
-router.post('/add', function(req,res){
-    res.send("Hey, it's atleast getting to the route....");
-    console.log(req.body)
+
+function User (username, picPath){
+	this.username = username;
+	this.picPath = picPath;
+}
+
+router.post('/create', function(req,res){
+    var obj = {};
+	res.send(req.body);
+	var userName = req.body.username;
+	var userPicFilePath = "./pics/" + req.body.username + ".png";
+	//console.log('body: ' + JSON.stringify(req.body));
+	require("fs").writeFile(userPicFilePath, req.body.pic, 'base64', function(err) {
+  	console.log(err);
+  	var user = new User(userName, userPicFilePath);
+  	console.log(user);
+});
 	});
+
 module.exports = router;
 
 
