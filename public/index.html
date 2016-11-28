@@ -1,10 +1,11 @@
 <!-- Compiled and minified CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
 <!-- Compiled and minified JavaScript -->
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-  crossorigin="anonymous">
-</script>
     <script src="webcam.js"></script>
     <div id="my_camera" style="width:320px; height:240px;"></div>
     <div id="my_result"></div>
@@ -12,36 +13,47 @@
         Webcam.attach( '#my_camera' );
         function take_snapshot() {
             Webcam.snap( function(data_uri) {
+                var picInput = '<input name="userimg" id="userimg" type="text" class="validate">';
+                var picInputLabel = '<label for="userimg">Image</label>';
                 document.getElementById('my_result').innerHTML = '<img src="'+data_uri+'"/>';
+                var dataUriText = data_uri + "";
+                var base64Image = dataUriText.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
+                console.log(base64Image);
             } );
         }
     </script>
 <a href="javascript:void(take_snapshot())">Take Snapshot</a>
 <div class="row">
-<!-- <script>
-      $('#faceform').submit(function(event) {
-      event.preventDefault();
-      let user = {
-        username: $('#username').val().trim(),
-        url: $('#url').val().trim(),
-      };
-      let currentURL = window.location.origin;
-      $.post(currentURL + '/users', newUser,
-        function(data) {
-          console.log(data);
-          });
-     });
-</script> -->
-    <form class="inputForm" id="faceform" action="users/add" method="POST" enctype="multi-part/form-data">
+<script>
+
+$(document).ready(function(){
+    $("#submit").click(function(){
+        var username = $('#username', value);
+        alert(username);
+        $.post('users/create', { field1: "hello", field2 : "hello2"},
+          function(returnedData){
+          console.log(returnedData);
+          })
+          .fail(function(){
+            console.log("error");
+              });
+      });
+  });
+</script>
       <div class="row">
         <div class="input-field col s6">
           <input name="username" id="username" type="text" class="validate">
           <label for="username">Username</label>
         </div>
+        <div class="input-field col s6" id=userPic>
+          </div>
+        </div>
         <div class="row">
-       <button class="btn waves-effect waves-light" method="post" type="submit" name="action" id="submit">Submit
-       </button>
-     </div>
+         <button
+         class="btn waves-effect waves-light"
+         id="submit">Submit
+         </button>
+        </div>
       </div>
     </form>
   </div>

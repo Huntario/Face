@@ -1,0 +1,41 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+<script src="../webcam.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous">
+</script>
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js">
+</script>
+<script>
+      $('#faceform').submit(function(event) {
+      event.preventDefault();
+      let user = {
+        username: $('#username').val().trim(),
+        url: $('#url').val().trim(),
+      };
+      let currentURL = window.location.origin;
+      $.post(currentURL + '/users', newUser,
+        function(data) {
+          console.log(data);
+          });
+     });
+</script>
+<script>
+        Webcam.attach( '#my_camera' );
+        function take_snapshot() {
+            Webcam.snap( function(data_uri) {
+                document.getElementById('my_result').innerHTML = '<img src="'+data_uri+'"/>';
+            } );
+        }
+</script>
+<script>
+$(document).ready(function(){
+    $("button").click(function(){
+        var image = ($("#myResult").find("img").attr("src"));
+    });
+});
+</script>
