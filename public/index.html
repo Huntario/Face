@@ -1,52 +1,18 @@
 <!-- Compiled and minified CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
 <!-- Compiled and minified JavaScript -->
-<script
-  src="https://code.jquery.com/jquery-3.1.1.min.js"
-  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
-  crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
-    <script src="webcam.js"></script>
-    <div id="my_camera" style="width:320px; height:240px;"></div>
-    <div id="my_result"></div>
-    <script language="JavaScript">
-        Webcam.attach( '#my_camera' );
-        function take_snapshot() {
-            Webcam.snap( function(data_uri) {
-                var picInput = '<input name="userimg" id="userimg" type="text" class="validate">';
-                var picInputLabel = '<label for="userimg">Image</label>';
-                document.getElementById('my_result').innerHTML = '<img src="'+data_uri+'"/>';
-                var dataUriText = data_uri + "";
-                var base64Image = dataUriText.replace(/^data:image\/(png|jpg|jpeg);base64,/, "");
-                SorryForGlobal = base64Image;
-            } );
-        }
-    </script>
+  <script
+    src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+  <script src="webcam.js"></script>
+  <div id="my_camera" style="width:320px; height:240px;"></div>
+  <div id="my_result"></div>
+  <script src="snapShot.js"></script>
 <a href="javascript:void(take_snapshot())">Take Snapshot</a>
 <div class="row">
-<script>
-
-$(document).ready(function(){
-    $("#submit").click(function(e){
-        e.preventDefault();
-        var username = $('#username').val();
-        console.log(username);
-          var data = {};
-          data.username = username;
-          data.pic = SorryForGlobal;
-          $.ajax({
-            type: 'POST',
-            data: JSON.stringify(data),
-                contentType: 'application/json',
-                        url: 'http://localhost:3000/users/create',
-                        success: function(data) {
-                            console.log('success');
-                            console.log(JSON.stringify(data));
-                        }
-                    });
-      });
-  });
-</script>
+    <script src="postAJAX.js"></script>
       <div class="row">
         <div class="input-field col s6">
           <input name="username" id="username" type="text" class="validate">
