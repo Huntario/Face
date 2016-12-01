@@ -7,13 +7,13 @@ Face recognition site
 -----------Logged in--------------------
 4. Show past data on face
     -photos[0].tags.glasses
-    -photos[0].tags.age_est
-    -photos[0].tags.anger
-    -photos[0].tags.disgust
-    -photos[0].tags.fear
-    -photos[0].tags.happiness
-    -photos[0].tags.sadness
-    -photos[0].tags.surprise
+    x-photos[0].tags.age_est
+    x-photos[0].tags.anger
+    x-photos[0].tags.disgust
+    x-photos[0].tags.fear
+    x-photos[0].tags.happiness
+    x-photos[0].tags.sadness
+    x-photos[0].tags.surprise
       {confidence:19,
       boolean:true}
 

@@ -5,7 +5,7 @@ module.exports = function(sequelize, DataTypes) {
     username: {type: Sequelize.STRING, unique: true},
     link: DataTypes.STRING,
     date: DataTypes.DATE
-  }, {
+  },{
     classMethods: {
       associate: function(models) {
         // associations can be defined here
