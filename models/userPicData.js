@@ -2,16 +2,54 @@
 var Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
 var userPicData = sequelize.define('userPicData', {
-    userPics: {type: Sequelize.STRING, unique: true},
-    picLink: DataTypes.STRING,
-    date: DataTypes.DATE,
-    age_est:DataTypes.STRING,
-    anger:DataTypes.STRING,
-    disgust:DataTypes.STRING,
-    fear:DataTypes.STRING,
-    happiness:DataTypes.STRING,
-    sadness:DataTypes.STRING,
-    surprise:DataTypes.STRING,
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true
+    },
+    username: {
+    type: Sequelize.STRING,
+    unique: true
+    },
+    picPath: {
+      type: Sequelize.STRING
+    },
+    anger: {
+      type: Sequelize.BOOLEAN
+    },
+    angerConfidence: {
+      type: Sequelize.INTEGER
+    },
+    disgust: {
+      type: Sequelize.BOOLEAN
+    },
+    disgustConfidence: {
+      type: Sequelize.INTEGER
+    },
+    fear: {
+      type: Sequelize.BOOLEAN
+    },
+    fearConfidence: {
+      type: Sequelize.INTEGER
+    },
+    happiness: {
+      type: Sequelize.BOOLEAN
+    },
+    happinessConfidence: {
+      type: Sequelize.INTEGER
+    },
+    sadness: {
+      type: Sequelize.BOOLEAN
+    },
+    sadnessConfidence: {
+      type: Sequelize.INTEGER
+    },
+    surprise: {
+      type: Sequelize.BOOLEAN
+    },
+    surpriseConfidence: {
+      type: Sequelize.INTEGER
+    }
   },{
     hooks:{
       beforeCreate: function() {

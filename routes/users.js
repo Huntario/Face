@@ -10,56 +10,46 @@ var express = require('express');
   var skybiometry = require('skybiometry');
   const client = new skybiometry.Client(appKeys.key1, appKeys.key2);
   var mainFuncs = require('../mainFunctions.js');
-function User (userName, picPath){
-	this.username = userName;
+  var Sequelize = require('sequelize');
+  var sequelize = new Sequelize('mysql://root@localhost:3306/facesDB');
+  var Users = sequelize.define;
+  var User = require('../models')['users'];
+  var mainFuncs = require('../mainFunctions.js');
+
+function newUser (username, picPath){
+	this.username = username;
 	this.picPath = picPath;
 	};
-function queryReturn(table){
-  if (table === null){
-  	console.log('Cool name!');
-  	var newAccount = true;
-  	return newAccount;
-  }
-  if (table){
-  	console.log('Looks like this name is taken.');
-  	var newAccount = false;
-  	return newAccount;
-  }
+function nameCheck (username){
+  return User.findAll({
+    where: {
+      username: username
+      }
+    })
   };
-function nameCheck (name){
-  //If the name is in the database, tell the user to try another.
-  // SELECT * FROM post WHERE authorId = 2
+function createNewUser (username,link){
   sequelize
-  .sync({
-    force: true
-  })
-  .then(function(){
-    User.findAll({
-      where: {
-        username: name
-        }
-      });
-    queryReturn(table)
+  User.create({
+      username: username,
+      link: link
     });
   };
 router.post('/create', function(req,res){
 	var obj = {};
 	console.log(req.body.username);
-	var userName = req.body.userName;
-	var userPicFilePath = "./pics/" + req.body.userName + ".png";
-	var user = new User(userName, userPicFilePath);
-	res.send(req.body);
-	client.account.users(userName)
-	.then(function (result){
-			var usersTest = JSON.parse(result);
-			console.log(result);
-			namecheck(userTest)
-			.done(function (result){
-			if (newAccount === true){
-				require("fs").writeFile(userPicFilePath, req.body.pic, 'base64', function(err) {
-						});
-			}});
-			mainFuncs.createNewUser(userName,userPicFilePath);
-			});
-		});
+	var username = req.body.username;
+	var userPicFilePath = "./public/pics/" + req.body.username + ".png";
+	var user = new newUser(username, userPicFilePath);
+	//client.account.users(username)
+  //res.send(req.body)
+		nameCheck(username).then(function(result){
+      console.log(result);
+      if(result.length > 0){
+        console.log("It appears this user already exists. Please try another username.")
+      }else{
+        require("fs").writeFile(userPicFilePath, req.body.pic, 'base64', function(err) {});
+        //mainFuncs.createNewUser(username,userPicFilePath);
+      }
+    });
+  });
 module.exports = router;

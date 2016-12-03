@@ -3,11 +3,14 @@
   var Users = sequelize.define;
   var mainFuncs = require('./mainFunctions.js');
 mainFuncs.startServer();
-mainFuncs.sqlConnectionCheck();
-// mainFuncs.learnFace();
-//   //var newUserInfo = [username, link, date];
-//   mainFuncs.createNewUser();
-//   }else if(newAccount === false){
-//   //var newPicInfo = [userPics,picLink,date,age_est,anger,disgust,fear,happiness,sadness,surprise]
-//   mainFuncs.createNewPicInfo()
-//   };
+// mainFuncs.sqlConnectionCheck();
+// mainFuncs.createNewUser();
+
+//var newUserInfo = [username, link, date];
+// }else if(newAccount === false){
+
+// var newPicInfo = ['username','picPath','anger','disgust','disgustConfidence','fear','fearConfidence','happiness','happinessConfidence','sadness','sadnessConfidence','surprise','surpriseConfidence'];
+
+// mainFuncs.createNewPicInfo('username','picPath','anger','disgust','disgustConfidence','fear','fearConfidence','happiness','happinessConfidence','sadness','sadnessConfidence','surprise','surpriseConfidence');
+
+// mainFuncs.learnFace('Leachmanh','./pics/Leachmanh');

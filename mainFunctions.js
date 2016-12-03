@@ -23,8 +23,8 @@ var express = require('express');
   var mainFuncs = {
 startServer: function () {
   app.listen(3000, function() {
-    models.users.sync();
-    models.userPicData.sync();
+    models.users.sync({ force: true });
+    models.userPicData.sync({ force: true });
     console.log('Listening on port 3000!');
     });
   },
@@ -38,115 +38,53 @@ sqlConnectionCheck: function (){
     console.log('Connection to mysql: failed with these errors: ', err);
   });
   },
-addUserPicTable: function (user){
-  var tableName = "UserPicTable_" + user;
-  queryInterface.createTable(
-  tableName,
-  {
-    id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true
-    },
-    username: {
-      type: Sequelize.STRING
-    },
-    date: {
-      type: Sequelize.DATE
-    },
-    picPath: {
-      type: Sequelize.DATE
-    },
-    anger: {
-      type: Sequelize.BOOLEAN
-    },
-    angerConfidence: {
-      type: Sequelize.DATE
-    },
-    disgust: {
-      type: Sequelize.BOOLEAN
-    },
-    disgustConfidence: {
-      type: Sequelize.INTEGER
-    },
-    fear: {
-      type: Sequelize.BOOLEAN
-    },
-    fearConfidence: {
-      type: Sequelize.INTEGER
-    },
-    happiness: {
-      type: Sequelize.BOOLEAN
-    },
-    happinessConfidence: {
-      type: Sequelize.INTEGER
-    },
-    sadness: {
-      type: Sequelize.BOOLEAN
-    },
-    sadnessConfidence: {
-      type: Sequelize.INTEGER
-    },
-    surprise: {
-      type: Sequelize.BOOLEAN
-    },
-    surpriseConfidence: {
-      type: Sequelize.INTEGER
-    }
-  },
-  {
-    engine: 'MYISAM',                     // default: 'InnoDB'
-    charset: 'latin1',                    // default: null
-    schema: 'public'                      // default: public, PostgreSQL only.
-  }
-  )
-  },
-createNewUser: function (username, link){
+createNewUser: function(username,link){
   sequelize
-  .sync({
-    force: true
-  })
-  .then(function() {
-    User.create({
-      link: link,
+  User.create({
       username: username,
-    })
-  })
+      link: link
+    });
   },
-createNewPicInfo: function (userPics,picLink,date,age_est,anger,disgust,fear,happiness,sadness,surprise){
+createNewPicInfo: function (username,picPath,anger,angerConfidence,disgust,disgustConfidence,fear,fearConfidence,happiness,happinessConfidence,sadness,sadnessConfidence,surprise,surpriseConfidence){
   sequelize
   .sync({
-      force: true
+      force: false
   })
-  .then(function() {
+  .then(function(result) {
     UserPicData.create({
-      userPics:userPics,
-      picLink:picLink,
-      date:date,
-      age_est:age_est,
-      anger:anger,
-      disgust:disgust,
-      fear:fear,
-      happiness:happiness,
-      sadness:sadness,
-      surprise:surprise
+    username:result.username,
+    picpath:result.picPath,
+    anger:result.anger,
+    angerConfidence:result.angerConfidence,
+    disgust:result.disgust,
+    disgustConfidence:result.disgustConfidence,
+    fear:result.fear,
+    fearConfidence:result.fearConfidence,
+    happiness:result.happiness,
+    happinessConfidence:result.happinessConfidence,
+    sadness:result.sadness,
+    sadnessConfidence:result.sadnessConfidence,
+    surprise:result.surprise,
+    surpriseConfidence:result.surpriseConfidence
       })
     });
   },
-learnFace: function (name, urls) {
+learnFace: function (username, urls) {
     client.faces.detect({ urls: urls, attributes: 'all' })
     .then(function(result){
-        var nameString = String(name);
+        var nameString = String(username);
         var newLearn = JSON.parse(result);
         var newTid = newLearn.photos[0].tags[0].tid;
-        var fullNameSpace = name + '@peter';
+        var fullNameSpace = username + '@peter';
+        console.log('fullNameSpace' + fullNameSpace);
         client.tags.save(newTid, fullNameSpace, {label: nameString, password: 'optionalPassword'});
         client.faces.train(nameString, { namespace: 'peter' });
         })
     },
-recognizeFace: function (name) {
+recognizeFace: function (username) {
   var picPath = testVars.garryB;
-  var fullNameSpace = name + '@peter';
+  var fullNameSpace = username + '@peter';
+  console.log('fullNameSpace' + fullNameSpace);
   client.faces.recognize(fullNameSpace, { urls: picPath, attributes: 'all' })
     .then(function(result){
         var newData = JSON.parse(result);
@@ -163,10 +101,10 @@ recognizeFace: function (name) {
   },
 authenticateFace: function (){
   recognizeFace();
-  if(!recognizeFace){
+  if(!recognized){
     return console.log("Recognition process failed. var recognizeFace is undefined");
     };
-  if(recognizeFace === true){
+  if(recognized === true){
     createNewPicInfo();
     };
   },
