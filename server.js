@@ -11,6 +11,14 @@ const client = new skybiometry.Client(appKeys.key1, appKeys.key2);
 var app = express();
 var PORT = process.env.PORT || 3000; // Sets an initial port. We'll use this later in our listener
 
+
+var models  = require('./models');
+// extract our sequelize connection from the models object, to avoid confusion
+var sequelizeConnection = models.sequelize
+// creates table
+sequelizeConnection.sync({force:false,  // disable logging; default: console.log
+  logging: false});
+
 app.use('/users', users);
 app.use('/', main);
 app.use(express.static('public'));
@@ -19,17 +27,29 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.text());
 app.use(bodyParser.json({type:'application/vnd.api+json'}));
 
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+
+//set up handlebars
+var exphbs = require('express-handlebars');
+app.engine('handlebars', exphbs({
+    defaultLayout: 'main'
+}));
+app.set('view engine', 'handlebars');
+
 var apis = require('./routes/user_routes.js');
 app.use('/', apis);
 // require('./routes/user_routes.js')(app); 
 module.exports = app;
 
 function startServer(){
-  app.listen(PORT, function() {
-  User.sync(); // creates a users table
-  console.log('Listening on port '+PORT+'!');
-  });
- }
+    app.listen(PORT, function() {
+    // User.sync(); // creates a users table
+    console.log('Listening on port '+PORT+'!');
+    });
+}
+
 function learnFace(name) {
     client.faces.detect({ urls: testVars.garryB, attributes: 'all' })
     .then(function(result){
@@ -40,8 +60,9 @@ function learnFace(name) {
         var fullNameSpace = name + '@raj';
         client.tags.save(newTid, fullNameSpace, {label: nameString, password: 'optionalPassword'});
         client.faces.train(nameString, { namespace: 'raj' });
-        })
-    };
+    })
+};
+
 function recognizeFace(name) {
     var fullNameSpace = name + '@raj';
     client.faces.recognize(fullNameSpace, { urls: testVars.garryB, attributes: 'all' })
@@ -55,7 +76,8 @@ function recognizeFace(name) {
         } else {
             console.log('This is not a match. Were: ' + confidence + ' confident.');
         }
-  });}
+    });
+}
 
 startServer();
 // learnFace('gary');
