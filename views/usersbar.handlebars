@@ -1,0 +1,14 @@
+<h1>Users List!</h1>
+
+
+<h2>User Info from MySql</h2>
+
+<ul>
+  {{#each users}}
+      <li>
+        username: {{this.username}} <br>
+        image link: <img src="{{this.link}}" />
+
+      </li>
+  {{/each}}
+</ul>
